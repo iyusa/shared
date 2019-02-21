@@ -44,7 +44,7 @@ type TCPServer struct {
 	Handler TransactionHandler
 }
 
-// Serve server litener @ port
+// Serve server litener @ localhost:port
 func (s *TCPServer) Serve(port int) error {
 	// create tcp listener
 	l, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
@@ -73,12 +73,19 @@ func (s *TCPServer) handleRequest(conn net.Conn) {
 	msg := &Message{}
 	msg.MTI = "2200"
 
+	// 1. parse iso message from connection
 	if status, err := s.parseMessage(conn, msg); err != nil {
 		msg.WriteError(conn, status, err)
 		return
 	}
 
-	// Send a response back to person contacting us.
+	// 2. execute transaction
+	if status, err := s.Handler.ExecuteTransaction(msg); err != nil {
+		msg.WriteError(conn, status, err)
+		return
+	}
+
+	// 3. send back iso to caller
 	msg.Write(conn)
 }
 
@@ -112,14 +119,6 @@ func (s *TCPServer) parseMessage(conn net.Conn, msg *Message) (string, error) {
 	// load rawIso into UssiIso
 	if err := msg.Load(rawIso, true); err != nil {
 		return RcFail, err
-	}
-
-	if msg.ProcessingCode == "" {
-		return RcFail, errors.New("Processing code is empty")
-	}
-
-	if status, err := s.Handler.ExecuteTransaction(msg); err != nil {
-		return status, err
 	}
 
 	return RcSuccess, nil
