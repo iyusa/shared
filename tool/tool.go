@@ -2,6 +2,7 @@ package shared
 
 import (
 	"crypto/sha1"
+	"encoding/json"
 	"fmt"
 
 	uuid "github.com/nu7hatch/gouuid"
@@ -20,4 +21,13 @@ func CreateStan() string {
 		return ""
 	}
 	return u4.String()
+}
+
+// AsJSON convert struct to json string
+func AsJSON(data interface{}) string {
+	b, err := json.Marshal(data)
+	if err != nil {
+		return fmt.Sprintf("Gagal konversi: %s", err.Error())
+	}
+	return string(b)
 }
