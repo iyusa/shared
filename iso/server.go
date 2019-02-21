@@ -10,8 +10,33 @@ import (
 
 // TransactionHandler interfave
 type TransactionHandler interface {
-	ExecuteTransaction(msg *MessageExtended) (string, error)
+	ExecuteTransaction(msg *Message) (string, error)
 }
+
+const (
+	// PcInquiry Processing code
+	PcInquiry = "100700"
+
+	// PcPayment Processing code
+	PcPayment = "200700"
+
+	// PcPurchase Processing code
+	PcPurchase = "300700"
+
+	// PcAdvice Processing code
+	PcAdvice = "301700"
+)
+
+const (
+	// RcSuccess Return code
+	RcSuccess = "0000"
+
+	// RcPending return code
+	RcPending = "0068"
+
+	// RcFail return code
+	RcFail = "1000"
+)
 
 // TCPServer server handler
 type TCPServer struct {
@@ -45,23 +70,20 @@ func (s *TCPServer) Serve(port int) error {
 func (s *TCPServer) handleRequest(conn net.Conn) {
 	defer conn.Close()
 
-	var ussi UssiIso
-	ussi.Initialize()
-
-	msg := UssiMessage("2210", ussi)
+	msg := &Message{}
+	msg.MTI = "2200"
 
 	if status, err := s.parseMessage(conn, msg); err != nil {
-		// rc := msg.Data.(UssiIso).ResponseCode.Value
-		// log.Printf("Response code %v, Error:%s \n", rc, err.Error())
-		msg.writeError(conn, status, err)
+		msg.WriteError(conn, status, err)
 		return
 	}
 
 	// Send a response back to person contacting us.
-	msg.write(conn)
+	msg.Write(conn)
 }
 
-func (s *TCPServer) parseMessage(conn net.Conn, msg *MessageExtended) (string, error) {
+// parse message from connection into msg (msg already created)
+func (s *TCPServer) parseMessage(conn net.Conn, msg *Message) (string, error) {
 	if s.Handler == nil {
 		return RcFail, errors.New("Handler is empty")
 	}
@@ -88,12 +110,11 @@ func (s *TCPServer) parseMessage(conn net.Conn, msg *MessageExtended) (string, e
 	}
 
 	// load rawIso into UssiIso
-	if err := msg.Load(rawIso); err != nil {
+	if err := msg.Load(rawIso, true); err != nil {
 		return RcFail, err
 	}
 
-	ussi := msg.Data.(UssiIso)
-	if ussi.ProcessingCode.IsEmpty() {
+	if msg.ProcessingCode == "" {
 		return RcFail, errors.New("Processing code is empty")
 	}
 

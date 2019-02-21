@@ -3,6 +3,7 @@ package iso
 import (
 	"errors"
 	"fmt"
+	"net"
 	"reflect"
 	"strconv"
 	"strings"
@@ -262,6 +263,26 @@ func (m *Message) buildValues(source []byte, bitmapHex string, bitmaps []int, of
 	}
 
 	return nil
+}
+
+// Write to connection()
+func (m *Message) Write(conn net.Conn) error {
+	buf, err := m.Bytes(true)
+	if err != nil {
+		return err
+	}
+	if _, err := conn.Write(buf); err != nil {
+		return err
+	}
+	return nil
+}
+
+// WriteError default error to connection
+func (m *Message) WriteError(conn net.Conn, status string, err error) error {
+	m.ResponseCode = status
+	m.ResponseMessage = err.Error()
+
+	return m.Write(conn)
 }
 
 // https://github.com/willf/pad/blob/master/pad.go
