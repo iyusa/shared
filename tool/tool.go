@@ -1,4 +1,4 @@
-package shared
+package tool
 
 import (
 	"crypto/sha1"
