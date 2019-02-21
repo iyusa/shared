@@ -285,6 +285,51 @@ func (m *Message) WriteError(conn net.Conn, status string, err error) error {
 	return m.Write(conn)
 }
 
+// Execute send iso to host
+func (m *Message) Execute(host string, port int) error {
+	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", host, port))
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	// send data
+	if err := m.Write(conn); err != nil {
+		return err
+	}
+
+	// read response
+	// get first 4 bytes as length
+	lenbuf := make([]byte, 4)
+	reqLen, err := conn.Read(lenbuf)
+	if err != nil || reqLen != 4 {
+		return err
+	}
+
+	dataLen, err := strconv.Atoi(string(lenbuf))
+	if err != nil {
+		return err
+	}
+
+	// Make a buffer to hold incoming data.
+	rawIso := make([]byte, dataLen)
+
+	// Read the incoming connection into the buffer.
+	reqLen, err = conn.Read(rawIso)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("Receiving raw iso %s\n", string(rawIso))
+
+	// load rawIso into msg.Data / UssiIso
+	if err := m.Load(rawIso, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // https://github.com/willf/pad/blob/master/pad.go
 func times(str string, n int) string {
 	if n <= 0 {

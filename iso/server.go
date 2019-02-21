@@ -40,7 +40,6 @@ const (
 
 // TCPServer server handler
 type TCPServer struct {
-	// Config  *ini.File
 	Handler TransactionHandler
 }
 
@@ -71,7 +70,7 @@ func (s *TCPServer) handleRequest(conn net.Conn) {
 	defer conn.Close()
 
 	msg := &Message{}
-	msg.MTI = "2200"
+	msg.MTI = "2100"
 
 	// 1. parse iso message from connection
 	if status, err := s.parseMessage(conn, msg); err != nil {
@@ -117,7 +116,7 @@ func (s *TCPServer) parseMessage(conn net.Conn, msg *Message) (string, error) {
 	}
 
 	// load rawIso into UssiIso
-	if err := msg.Load(rawIso, true); err != nil {
+	if err := msg.Load(rawIso, false); err != nil {
 		return RcFail, err
 	}
 
