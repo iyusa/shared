@@ -1,6 +1,11 @@
-# What
-Shared library used by various projcet
+# Shared Library
+Small and simple shared library.
 
-# Package used
+### Packages
+- **iso** Simple ISO8583 message for client and server
+- **config** Simple ini file wrapper
+- **tool** Various utility helper
+
+### external package used
 
 - [Testing](go get -u github.com/gotest.tools)
