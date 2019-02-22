@@ -334,7 +334,7 @@ func (m *Message) Execute(host string, port int) error {
 
 // SetAmount as integer
 func (m *Message) SetAmount(amount int) {
-	m.Amount = strconvItoa(amount)
+	m.Amount = strconv.Itoa(amount)
 }
 
 // GetAmount as integer
