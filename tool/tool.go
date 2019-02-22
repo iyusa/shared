@@ -4,6 +4,7 @@ import (
 	"crypto/sha1"
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	uuid "github.com/nu7hatch/gouuid"
 )
@@ -30,4 +31,24 @@ func AsJSON(data interface{}) string {
 		return fmt.Sprintf("Gagal konversi: %s", err.Error())
 	}
 	return string(b)
+}
+
+// Converter
+
+// StrToInt convert string to integer, return def if fail
+func StrToInt(source string, def int) int {
+	val, err := strconv.Atoi(source)
+	if err != nil {
+		return def
+	}
+	return val
+}
+
+// StrToFloat convert string to float, return def if fail
+func StrToFloat(source string, def float64) float64 {
+	val, err := strconv.ParseFloat(source, 32)
+	if err != nil {
+		return def
+	}
+	return val
 }

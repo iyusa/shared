@@ -5,3 +5,6 @@ lib:
 
 build:
 	@echo "Tidak ada"	
+
+test:
+	go test ./...	
