@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+
+	"github.com/iyusa/shared/tool"
 )
 
 const (
@@ -328,6 +330,16 @@ func (m *Message) Execute(host string, port int) error {
 	}
 
 	return nil
+}
+
+// SetAmount as integer
+func (m *Message) SetAmount(amount int) {
+	m.Amount = string(amount)
+}
+
+// GetAmount as integer
+func (m *Message) GetAmount() int {
+	return tool.StrToInt(m.Amount, 0)
 }
 
 // https://github.com/willf/pad/blob/master/pad.go
