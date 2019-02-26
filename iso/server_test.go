@@ -30,6 +30,17 @@ func OffTestServer(t *testing.T) {
 	server.Serve(5000)
 }
 
+func TestIsoString(t *testing.T) {
+	var iso Message
+	iso.MTI = "2200"
+	iso.ProcessingCode = PcInquiry
+	iso.ResponseCode = RcFail
+	iso.ResponseMessage = "This is from client"
+	iso.SetAmount(50000)
+
+	fmt.Println(iso.String())
+}
+
 func TestClient(t *testing.T) {
 	var iso Message
 	iso.MTI = "2200"

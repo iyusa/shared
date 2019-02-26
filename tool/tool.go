@@ -52,3 +52,23 @@ func StrToFloat(source string, def float64) float64 {
 	}
 	return val
 }
+
+// PadRight ("go", "x", 6) => "goxxxx"
+func PadRight(str, pad string, lenght int) string {
+	for {
+		str += pad
+		if len(str) > lenght {
+			return str[0:lenght]
+		}
+	}
+}
+
+// PadLeft ("go", "x", 6) => "xxxxgo"
+func PadLeft(str, pad string, lenght int) string {
+	for {
+		str = pad + str
+		if len(str) > lenght {
+			return str[0:lenght]
+		}
+	}
+}

@@ -1,6 +1,7 @@
 package iso
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"net"
@@ -340,6 +341,23 @@ func (m *Message) SetAmount(amount int) {
 // GetAmount as integer
 func (m *Message) GetAmount() int {
 	return tool.StrToInt(m.Amount, 0)
+}
+
+// String for report
+func (m *Message) String() string {
+	var bytes bytes.Buffer
+
+	r := reflect.TypeOf(*m)
+	v := reflect.ValueOf(m).Elem()
+	for i := 0; i < r.NumField(); i++ {
+		f := r.Field(i)
+		val := v.Field(i).String()
+
+		s := fmt.Sprintf("%20s: [%s]\n", f.Name, val)
+		bytes.WriteString(s)
+	}
+
+	return bytes.String()
 }
 
 // https://github.com/willf/pad/blob/master/pad.go
