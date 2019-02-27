@@ -8,6 +8,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/iyusa/shared/tool"
 )
@@ -290,7 +291,8 @@ func (m *Message) WriteError(conn net.Conn, status string, err error) error {
 
 // Execute send iso to host
 func (m *Message) Execute(host string, port int) error {
-	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", host, port))
+	d := net.Dialer{Timeout: time.Second * 60}
+	conn, err := d.Dial("tcp", fmt.Sprintf("%s:%d", host, port))
 	if err != nil {
 		return err
 	}
