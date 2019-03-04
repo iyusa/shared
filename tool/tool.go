@@ -5,8 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"testing"
 
 	uuid "github.com/nu7hatch/gouuid"
+	"google.golang.org/grpc/status"
 )
 
 // CreateSha1 generate sha1 from source
@@ -71,4 +73,16 @@ func PadLeft(str, pad string, lenght int) string {
 			return str[0:lenght]
 		}
 	}
+}
+
+// PrintError from converted status then mark test as fail and then exit
+func PrintError(t *testing.T, title string, err error) {
+	s := status.Convert(err)
+	fmt.Printf("%s: [%s]\n\n", title, s.Message())
+	t.FailNow()
+}
+
+// PrintStruct helper
+func PrintStruct(title, data interface{}) {
+	fmt.Printf("%s: [%s]\n\n", title, AsJSON(data))
 }
