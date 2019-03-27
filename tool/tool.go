@@ -78,11 +78,11 @@ func PadLeft(str, pad string, lenght int) string {
 // PrintError from converted status then mark test as fail and then exit
 func PrintError(t *testing.T, title string, err error) {
 	s := status.Convert(err)
-	fmt.Printf("%s: [%s]\n\n", title, s.Message())
+	fmt.Printf("%s: %s\n\n", title, s.Message())
 	t.FailNow()
 }
 
 // PrintStruct helper
 func PrintStruct(title, data interface{}) {
-	fmt.Printf("%s: [%s]\n\n", title, AsJSON(data))
+	fmt.Printf("%s: %s\n\n", title, AsJSON(data))
 }
