@@ -44,7 +44,7 @@ type TCPServer struct {
 }
 
 // Serve server litener @ localhost:port
-func (s *TCPServer) Serve(host, port int) error {
+func (s *TCPServer) Serve(host string, port int) error {
 	// create tcp listener
 	l, err := net.Listen("tcp", fmt.Sprintf("%s:%d", host, port))
 	// l, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
