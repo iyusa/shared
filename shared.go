@@ -1,5 +1,5 @@
 package shared
 
 func Info() string {
-	return "Iyus A. Muslimin - iyusa@yahoo.com"
+	return "v1.1 - Iyus A. Muslimin - iyusa@yahoo.com"
 }

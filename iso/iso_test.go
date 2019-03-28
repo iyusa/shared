@@ -20,6 +20,7 @@ func TestLoad(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	fmt.Println()
 	fmt.Println(string(b))
 
 	Equal(t, msg.ResponseCode, "1234")
@@ -27,6 +28,22 @@ func TestLoad(t *testing.T) {
 
 	// py bitmap: 3020000002010000
 	// go bitmap: 3020000002010000
+}
+
+func TestLongLoad(t *testing.T) {
+	var msg Message
+	var raw = []byte("02332200bf38404109e200080000000013000000100700000000000000000000000000000000000000000003281337210000000050573914051520190328133721032800470020040102905739140515001628112072271    005.000001     0000000006300650168888802305809876006BPJSAD")
+
+	err := msg.Load(raw, true)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	b, err := json.Marshal(msg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(string(b))
 }
 
 func Equal(t *testing.T, a string, b string) {
@@ -88,3 +105,28 @@ func TestIso(t *testing.T) {
 	}
 
 }
+
+/*
+Bitmap 3
+Bitmap 4
+Bitmap 5
+Bitmap 6
+Bitmap 7
+Bitmap 8
+Bitmap 11
+Bitmap 12
+Bitmap 13
+Bitmap 18
+Bitmap 26
+Bitmap 32
+Bitmap 37
+Bitmap 40
+Bitmap 41
+Bitmap 42
+Bitmap 43
+Bitmap 47
+Bitmap 61
+Bitmap 100
+Bitmap 103
+Bitmap 104
+*/
