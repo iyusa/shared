@@ -55,6 +55,7 @@ type Message struct {
 	Bit43           string `index:"43" length:"56" type:"N" size:"LLVAR"`
 	Buffer          string `index:"47" length:"999" type:"AN" size:"LLLVAR"`
 	ResponseMessage string `index:"48" length:"999" type:"AN" size:"LLLVAR"`
+	Extra0          string `index:"60" length:"999" type:"AN" size:"LLLVAR"`
 	Extra1          string `index:"61" length:"999" type:"AN" size:"LLLVAR"`
 	Extra2          string `index:"62" length:"999" type:"AN" size:"LLLVAR"`
 	BillerCode      string `index:"100" length:"99" type:"AN" size:"LLVAR"`

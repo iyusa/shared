@@ -1,6 +1,8 @@
 package shared
 
 // Info for internal use
+// Changelog
+// 1.3 - add bit 60 to iso
 func Info() string {
-	return "v1.2 - Iyus A. Muslimin - iyusa@yahoo.com"
+	return "Version 1.3 - Iyus A. Muslimin - iyusa@yahoo.com"
 }
