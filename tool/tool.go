@@ -86,3 +86,19 @@ func PrintError(t *testing.T, title string, err error) {
 func PrintStruct(title, data interface{}) {
 	fmt.Printf("%s: %s\n\n", title, AsJSON(data))
 }
+
+// StringToNumberString fix string to
+func StringToNumberString(val string) string {
+	v, err := strconv.ParseInt(val, 10, 64)
+	if err != nil {
+		return "0"
+	}
+	return strconv.FormatInt(v, 10)
+}
+
+// SumString number sum of two string
+func SumString(a, b string) string {
+	aa, _ := strconv.ParseInt(a, 10, 64)
+	bb, _ := strconv.ParseInt(b, 10, 64)
+	return strconv.FormatInt(aa+bb, 10)
+}
