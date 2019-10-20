@@ -1,7 +1,12 @@
 # Shared Library
 Small and simple shared library.
 
-### Packages
+## Installation
+
+    go get -u github.com/iyusa/shared
+
+## Packages
+
 - **iso** Simple ISO8583 message for client and server
 - **config** Simple ini file wrapper
 - **tool** Various utility helper
