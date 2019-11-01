@@ -57,3 +57,10 @@ func TestFixed(t *testing.T) {
 	// fmt.Println(fs.Get("kode_bahasa"))
 	// fmt.Println(fs.Get("customer_name"))
 }
+
+func TestMD5(t *testing.T) {
+	a := "iyus"
+	b := CreateMD5(a)
+	fmt.Println(b)
+	fmt.Println("7d0ea7482f842d31aadd256539493ab0")
+}
