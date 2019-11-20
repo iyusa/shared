@@ -1,4 +1,6 @@
-package iso
+package server
+
+// versi baru untuk iso server
 
 import (
 	"errors"
@@ -6,11 +8,13 @@ import (
 	"log"
 	"net"
 	"strconv"
+
+	"../iso"
 )
 
 // TransactionHandler interfave
 type TransactionHandler interface {
-	ExecuteTransaction(msg *Message) (string, error)
+	ExecuteTransaction(msg *iso.Message) error
 }
 
 // TCPServer server handler
@@ -45,7 +49,7 @@ func (s *TCPServer) Serve(host string, port int) error {
 func (s *TCPServer) handleRequest(conn net.Conn) {
 	defer conn.Close()
 
-	msg := &Message{}
+	msg := &iso.Message{}
 	msg.MTI = "2100"
 
 	// 1. parse iso message from connection
@@ -55,8 +59,8 @@ func (s *TCPServer) handleRequest(conn net.Conn) {
 	}
 
 	// 2. execute transaction
-	if status, err := s.Handler.ExecuteTransaction(msg); err != nil {
-		msg.WriteError(conn, status, err)
+	if err := s.Handler.ExecuteTransaction(msg); err != nil {
+		msg.WriteError(conn, msg.ResponseCode, err)
 		return
 	}
 
@@ -65,21 +69,21 @@ func (s *TCPServer) handleRequest(conn net.Conn) {
 }
 
 // parse message from connection into msg (msg already created)
-func (s *TCPServer) parseMessage(conn net.Conn, msg *Message) (string, error) {
+func (s *TCPServer) parseMessage(conn net.Conn, msg *iso.Message) (string, error) {
 	if s.Handler == nil {
-		return RcFail, errors.New("Handler is empty")
+		return iso.RcFail, errors.New("Handler is empty")
 	}
 
 	// get first 4 bytes as length
 	lenbuf := make([]byte, 4)
 	reqLen, err := conn.Read(lenbuf)
 	if err != nil || reqLen != 4 {
-		return RcFail, err
+		return iso.RcFail, err
 	}
 
 	dataLen, err := strconv.Atoi(string(lenbuf))
 	if err != nil {
-		return RcFail, err
+		return iso.RcFail, err
 	}
 
 	// Make a buffer to hold incoming data.
@@ -88,13 +92,13 @@ func (s *TCPServer) parseMessage(conn net.Conn, msg *Message) (string, error) {
 	// Read the incoming connection into the buffer.
 	reqLen, err = conn.Read(rawIso)
 	if err != nil {
-		return RcFail, err
+		return iso.RcFail, err
 	}
 
 	// load rawIso into UssiIso
 	if err := msg.Load(rawIso, false); err != nil {
-		return RcFail, err
+		return iso.RcFail, err
 	}
 
-	return RcSuccess, nil
+	return iso.RcSuccess, nil
 }
