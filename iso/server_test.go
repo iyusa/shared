@@ -41,20 +41,20 @@ func TestIsoString(t *testing.T) {
 	fmt.Println(iso.String())
 }
 
-func TestClient(t *testing.T) {
-	var iso Message
-	iso.MTI = "2200"
-	iso.ProcessingCode = PcInquiry
-	iso.ResponseCode = RcFail
-	iso.ResponseMessage = "This is from client"
+// func TestClient(t *testing.T) {
+// 	var iso Message
+// 	iso.MTI = "2200"
+// 	iso.ProcessingCode = PcInquiry
+// 	iso.ResponseCode = RcFail
+// 	iso.ResponseMessage = "This is from client"
 
-	fmt.Println("Sending Request")
-	fmt.Println(iso.String())
+// 	fmt.Println("Sending Request")
+// 	fmt.Println(iso.String())
 
-	if err := iso.Execute("localhost", 5000); err != nil {
-		t.Error(err)
-	}
+// 	if err := iso.Execute("localhost", 5000); err != nil {
+// 		t.Error(err)
+// 	}
 
-	// Equal(t, iso.ResponseCode, RcSuccess)
-	fmt.Println(iso.String())
-}
+// 	// Equal(t, iso.ResponseCode, RcSuccess)
+// 	fmt.Println(iso.String())
+// }

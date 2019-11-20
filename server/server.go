@@ -12,7 +12,7 @@ import (
 	"../iso"
 )
 
-// TransactionHandler interfave
+// TransactionHandler interface
 type TransactionHandler interface {
 	ExecuteTransaction(msg *iso.Message) error
 }
