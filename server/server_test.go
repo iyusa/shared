@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
-	"../iso"
-	"../tool"
+	"github.com/iyusa/shared/iso"
+	"github.com/iyusa/shared/tool"
 )
 
 type handler struct{}

@@ -9,7 +9,7 @@ import (
 	"net"
 	"strconv"
 
-	"../iso"
+	"github.com/iyusa/shared/iso"
 )
 
 // ExecuteHandler interface
