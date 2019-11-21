@@ -11,7 +11,7 @@ import (
 
 type handler struct{}
 
-func (h *handler) ExecuteTransaction(msg *iso.Message) error {
+func (h *handler) Execute(msg *iso.Message) error {
 	fmt.Printf("Receiving iso message: [%s] \n", tool.AsJSON(msg))
 
 	if msg.ResponseCode == iso.RcFail {
@@ -25,7 +25,7 @@ func (h *handler) ExecuteTransaction(msg *iso.Message) error {
 }
 
 func OffTestServer(t *testing.T) {
-	var server TCPServer
+	var server IsoServer
 	server.Handler = &handler{}
 	fmt.Println("Starting server @ 5000 ...")
 	server.Serve(":", 5000)

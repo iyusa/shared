@@ -12,18 +12,18 @@ import (
 	"../iso"
 )
 
-// TransactionHandler interface
-type TransactionHandler interface {
-	ExecuteTransaction(msg *iso.Message) error
+// ExecuteHandler interface
+type ExecuteHandler interface {
+	Execute(msg *iso.Message) error
 }
 
-// TCPServer server handler
-type TCPServer struct {
-	Handler TransactionHandler
+// IsoServer server handler
+type IsoServer struct {
+	Handler ExecuteHandler
 }
 
 // Serve server litener @ localhost:port
-func (s *TCPServer) Serve(host string, port int) error {
+func (s *IsoServer) Serve(host string, port int) error {
 	// create tcp listener
 	l, err := net.Listen("tcp", fmt.Sprintf("%s:%d", host, port))
 	// l, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
@@ -46,7 +46,7 @@ func (s *TCPServer) Serve(host string, port int) error {
 	}
 }
 
-func (s *TCPServer) handleRequest(conn net.Conn) {
+func (s *IsoServer) handleRequest(conn net.Conn) {
 	defer conn.Close()
 
 	msg := &iso.Message{}
@@ -59,7 +59,7 @@ func (s *TCPServer) handleRequest(conn net.Conn) {
 	}
 
 	// 2. execute transaction
-	if err := s.Handler.ExecuteTransaction(msg); err != nil {
+	if err := s.Handler.Execute(msg); err != nil {
 		msg.WriteError(conn, msg.ResponseCode, err)
 		return
 	}
@@ -69,7 +69,7 @@ func (s *TCPServer) handleRequest(conn net.Conn) {
 }
 
 // parse message from connection into msg (msg already created)
-func (s *TCPServer) parseMessage(conn net.Conn, msg *iso.Message) (string, error) {
+func (s *IsoServer) parseMessage(conn net.Conn, msg *iso.Message) (string, error) {
 	if s.Handler == nil {
 		return iso.RcFail, errors.New("Handler is empty")
 	}
