@@ -421,8 +421,10 @@ func (m *Message) String() string {
 		f := r.Field(i)
 		val := v.Field(i).String()
 
-		s := fmt.Sprintf("%20s: [%s]\n", f.Name, val)
-		bytes.WriteString(s)
+		if val != "" {
+			s := fmt.Sprintf("%20s: [%s]\n", f.Name, val)
+			bytes.WriteString(s)
+		}
 	}
 
 	return bytes.String()
