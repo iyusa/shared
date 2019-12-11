@@ -41,6 +41,11 @@ func (f *FixedString) Add(key string, width int) (result string, err error) {
 	return
 }
 
+// Put directly to dictionary
+func (f *FixedString) Put(key, value string) {
+	f.dict[key] = value
+}
+
 // AddExclude like Add but without added to fixedsource
 func (f *FixedString) AddExclude(key string, width int) (result string, err error) {
 	defer func() {
