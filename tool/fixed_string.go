@@ -110,3 +110,8 @@ func (f *FixedString) Error() error {
 	}
 	return errors.New(f.errorDescription)
 }
+
+// Map get internal map dict
+func (f *FixedString) Map() map[string]string {
+	return f.dict
+}
