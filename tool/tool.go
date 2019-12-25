@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 	"testing"
 
 	uuid "github.com/nu7hatch/gouuid"
@@ -108,4 +109,44 @@ func SumString(a, b string) string {
 	aa, _ := strconv.ParseInt(a, 10, 64)
 	bb, _ := strconv.ParseInt(b, 10, 64)
 	return strconv.FormatInt(aa+bb, 10)
+}
+
+// WordWraps long string into slice with maximum char length
+func WordWraps(source string, maxWidth int) []string {
+	var result = make([]string, 0)
+	var wrapped string
+
+	// Split string into array of words
+	words := strings.Fields(source)
+
+	if len(words) == 0 {
+		return result
+	}
+
+	remaining := maxWidth
+
+	for _, word := range words {
+		if len(word)+1 > remaining {
+			if len(wrapped) > 0 {
+				result = append(result, wrapped)
+				wrapped = ""
+			}
+
+			wrapped += word
+			remaining = maxWidth - len(word)
+		} else {
+			if len(wrapped) > 0 {
+				wrapped += " "
+			}
+
+			wrapped += word
+			remaining = remaining - (len(word) + 1)
+		}
+	}
+
+	if len(wrapped) > 0 {
+		result = append(result, wrapped)
+	}
+
+	return result
 }

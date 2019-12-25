@@ -64,3 +64,11 @@ func TestMD5(t *testing.T) {
 	fmt.Println(b)
 	fmt.Println("7d0ea7482f842d31aadd256539493ab0")
 }
+
+func TestWordWraps(t *testing.T) {
+	raw := "Searching for a reliable open source payment gateway solution? Continued support can put you in a reactive position, rather than place you at a proactive advantage. Does that mean you should build your own payment gateway? If you have a business based on subscriptions or a recurring revenue framework, take a look at Zuora! Our SaaS platform is purpose-built for the"
+	ss := WordWraps(raw, 30)
+	for _, s := range ss {
+		fmt.Println(s)
+	}
+}
