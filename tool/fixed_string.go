@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 // FixedString for fixed string handing
@@ -74,7 +75,7 @@ func (f *FixedString) Get(key string) string {
 	val, ok := f.dict[key]
 	if ok {
 		f.errorDescription = ""
-		return val
+		return strings.TrimSpace(val)
 	}
 	f.errorDescription = fmt.Sprintf("Key %s not found", key)
 	return ""
