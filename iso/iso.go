@@ -41,6 +41,7 @@ type Message struct {
 	Bit6            string `index:"6" length:"12" type:"N" size:"FIXED"`
 	Bit7            string `index:"7" length:"10" type:"N" size:"FIXED"`
 	Bit8            string `index:"8" length:"8" type:"N" size:"FIXED"`
+	Bit9            string `index:"8" length:"8" type:"N" size:"FIXED"`
 	Stan            string `index:"11" length:"12" type:"N" size:"FIXED"`
 	TransactionTime string `index:"12" length:"14" type:"N" size:"FIXED"`
 	Bit13           string `index:"13" length:"4" type:"N" size:"FIXED"`
