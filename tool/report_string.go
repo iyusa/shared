@@ -33,10 +33,7 @@ func (r *ReportString) Add(value string) {
 		chars := value[0:r.max]
 		r.buffer.WriteString(chars)
 	} else {
-		chars := PadLeft(value, " ", r.max)
-		if r.rightAlignment {
-			chars = PadRight(value, " ", r.max)
-		}
+		chars := PadRight(value, " ", r.max)
 		r.buffer.WriteString(chars)
 	}
 }
@@ -44,7 +41,12 @@ func (r *ReportString) Add(value string) {
 // AddKV add key value pair
 func (r *ReportString) AddKV(key string, value string) {
 	n := r.max - len(key)
-	r.Add(key + PadLeft(value, " ", n))
+	chars := PadLeft(value, " ", n)
+	if r.rightAlignment {
+		chars = PadRight(value, " ", n)
+	}
+	r.Add(key + chars)
+	// r.Add(key + PadLeft(value, " ", n))
 }
 
 // AddCenter ed string
