@@ -7,7 +7,7 @@ import (
 )
 
 func TestReportString(t *testing.T) {
-	rep := NewReportString()
+	rep := NewReportString(true)
 
 	rep.AddCenter("STRUK PEMBAYARAN BPJS KESEHATAN")
 	rep.AddCenter("Test Center")

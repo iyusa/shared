@@ -7,13 +7,14 @@ import (
 
 // ReportString create text receipt with maximum length
 type ReportString struct {
-	buffer bytes.Buffer
-	max    int
+	buffer         bytes.Buffer
+	max            int
+	rightAlignment bool
 }
 
 // NewReportString create new reportstring with initialized max
-func NewReportString() *ReportString {
-	return &ReportString{max: 32}
+func NewReportString(rightAlignment bool) *ReportString {
+	return &ReportString{max: 32, rightAlignment: rightAlignment}
 }
 
 // Add string with max
@@ -32,7 +33,10 @@ func (r *ReportString) Add(value string) {
 		chars := value[0:r.max]
 		r.buffer.WriteString(chars)
 	} else {
-		chars := PadRight(value, " ", r.max)
+		chars := PadLeft(value, " ", r.max)
+		if r.rightAlignment {
+			chars = PadRight(value, " ", r.max)
+		}
 		r.buffer.WriteString(chars)
 	}
 }
