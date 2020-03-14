@@ -92,7 +92,7 @@ func PrintError(t *testing.T, title string, err error) {
 
 // PrintStruct helper
 func PrintStruct(title, data interface{}) {
-	fmt.Printf("%s: %s\n\n", title, AsJSON(data))
+	fmt.Printf("%s:\n%s\n\n", title, AsJSON(data))
 }
 
 // StringToNumberString fix string to

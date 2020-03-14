@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-// TransactionHandler interfave
+// TransactionHandler interfave. Deprecated, user server.Server instead
 type TransactionHandler interface {
 	ExecuteTransaction(msg *Message) (string, error)
 }
@@ -62,6 +62,8 @@ func (s *TCPServer) handleRequest(conn net.Conn) {
 
 	// 3. send back iso to caller
 	msg.Write(conn)
+
+	conn.Close()
 }
 
 // parse message from connection into msg (msg already created)

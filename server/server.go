@@ -66,6 +66,9 @@ func (s *IsoServer) handleRequest(conn net.Conn) {
 
 	// 3. send back iso to caller
 	msg.Write(conn)
+
+	// clonse connection
+	conn.Close()
 }
 
 // parse message from connection into msg (msg already created)
