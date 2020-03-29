@@ -75,8 +75,12 @@ func (s *TCPServer) parseMessage(conn net.Conn, msg *Message) (string, error) {
 	// get first 4 bytes as length
 	lenbuf := make([]byte, 4)
 	reqLen, err := conn.Read(lenbuf)
-	if err != nil || reqLen != 4 {
+	if err != nil {
 		return RcFail, err
+	}
+
+	if reqLen != 4 {
+		return RcFail, fmt.Errorf("Invalid buffer length")
 	}
 
 	dataLen, err := strconv.Atoi(string(lenbuf))
