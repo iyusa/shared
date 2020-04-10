@@ -106,27 +106,33 @@ func TestIso(t *testing.T) {
 
 }
 
-/*
-Bitmap 3
-Bitmap 4
-Bitmap 5
-Bitmap 6
-Bitmap 7
-Bitmap 8
-Bitmap 11
-Bitmap 12
-Bitmap 13
-Bitmap 18
-Bitmap 26
-Bitmap 32
-Bitmap 37
-Bitmap 40
-Bitmap 41
-Bitmap 42
-Bitmap 43
-Bitmap 47
-Bitmap 61
-Bitmap 100
-Bitmap 103
-Bitmap 104
-*/
+func TestLoadEmpty(t *testing.T) {
+	var data = `2200BFB8404109C30008000000001300000020070000000000000200000000000000000000000025000409162452000000000000000140498712912520200409162452031300170020040002029873837193000628112200669    352014091188404144451CA01510632548725106325487200E14C7BBDE23048858E3A9267529DA1930SYM21SB0189261130A176256B00C12CTest PLN Prepaid         R1  00000045020000180000330** INFO PEMBELIAN PLN PREPAID **
+	--------------------------------
+	NO METER:            51063254872
+	IDPEL:              510632548720
+	NAMA:  Test PLN Prepaid         
+	TARIF/DAYA:             R1  /450
+	--------------------------------
+	****************************
+	RP BAYAR : RP                  0
+	--------------------------------
+	006112233063012121151063254872006301212`
+
+	var msg Message
+	// var raw = []byte(data)
+	raw := make([]byte, len(data))
+
+	err := msg.Load(raw, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	b, err := json.Marshal(msg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println()
+	fmt.Println(string(b))
+
+}

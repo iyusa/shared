@@ -2,6 +2,7 @@ package shared
 
 // Info for internal use
 // Changelog
+// 2.3 - add validate mti on load
 // 2.2 - add conn.Close() to handler
 // 2.1 - add bit 9
 // 2.0 - tool.WordWraps
@@ -12,5 +13,5 @@ package shared
 // 1.5 - add fixed string for pln
 // 1.3 - add bit 60 to iso
 func Info() string {
-	return "Version 2.2 - Iyus A. Muslimin - iyusa@yahoo.com"
+	return "Version 2.3 - Iyus A. Muslimin - iyusa@yahoo.com"
 }

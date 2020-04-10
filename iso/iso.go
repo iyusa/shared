@@ -64,37 +64,12 @@ type Message struct {
 	ProductCode     string `index:"104" length:"99" type:"AN" size:"LLLVAR"`
 }
 
-// type Message struct {
-// 	MTI string
-
-// 	ProcessingCode  string `index:"3" length:"6" type:"N" size:"FIXED"`
-// 	Amount          string `index:"4" length:"16" type:"N" size:"FIXED"`
-// 	Stan            string `index:"11" length:"12" type:"N" size:"FIXED"`
-// 	TransactionTime string `index:"12" length:"14" type:"N" size:"FIXED"`
-// 	ResponseCode    string `index:"39" length:"4" type:"N" size:"FIXED"`
-// 	Period          string `index:"40" length:"3" type:"N" size:"FIXED"`
-// 	Buffer          string `index:"47" length:"999" type:"AN" size:"LLLVAR"`
-// 	ResponseMessage string `index:"48" length:"999" type:"AN" size:"LLLVAR"`
-// 	Extra1          string `index:"61" length:"999" type:"AN" size:"LLLVAR"`
-// 	Extra2          string `index:"62" length:"999" type:"AN" size:"LLLVAR"`
-// 	BillerCode      string `index:"100" length:"99" type:"AN" size:"LLVAR"`
-// 	SubscriberID    string `index:"103" length:"99" type:"AN" size:"LLVAR"`
-// 	ProductCode     string `index:"104" length:"999" type:"AN" size:"LLLVAR"`
-
-// 	Bit5  string `index:"5" length:"12" type:"N" size:"FIXED"`
-// 	Bit6  string `index:"6" length:"12" type:"N" size:"FIXED"`
-// 	Bit7  string `index:"7" length:"10" type:"N" size:"FIXED"`
-// 	Bit8  string `index:"8" length:"8" type:"N" size:"FIXED"`
-// 	Bit13 string `index:"13" length:"4" type:"N" size:"FIXED"`
-
-// 	Bit18 string `index:"18" length:"4" type:"N" size:"FIXED"`
-// 	Bit26 string `index:"26" length:"4" type:"N" size:"FIXED"`
-// 	Bit32 string `index:"32" length:"11" type:"N" size:"LLVAR"`
-// 	Bit37 string `index:"37" length:"12" type:"N" size:"FIXED"`
-// 	Bit41 string `index:"41" length:"16" type:"N" size:"FIXED"`
-// 	Bit42 string `index:"42" length:"15" type:"N" size:"FIXED"`
-// 	Bit43 string `index:"43" length:"56" type:"N" size:"LLVAR"`
-// }
+// ValidMTI used by ussi
+var ValidMTI = map[string]string{
+	"2200": "Financial request",
+	"2210": "Financial response",
+	"8000": "Network response",
+}
 
 // Bytes create []byte representation
 func (m *Message) Bytes(withLength bool) ([]byte, error) {
@@ -208,6 +183,11 @@ func (m *Message) Load(source []byte, hasLength bool) error {
 	b := source[offset : offset+4]
 	offset += 4
 	m.MTI = string(b)
+
+	_, ok := ValidMTI[m.MTI]
+	if !ok {
+		return fmt.Errorf("Invalid MTI: '%s'", m.MTI)
+	}
 
 	// read bitmap
 	bitmapHex, bitmaps := buildBitmap(source, offset)

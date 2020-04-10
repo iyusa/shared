@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"../tool"
+	"github.com/iyusa/shared/tool"
 )
 
 type handler struct{}
