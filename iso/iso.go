@@ -68,7 +68,8 @@ type Message struct {
 var ValidMTI = map[string]string{
 	"2200": "Financial request",
 	"2210": "Financial response",
-	"8000": "Network response",
+	"0800": "Network request",
+	"0810": "Network response",
 }
 
 // Bytes create []byte representation
