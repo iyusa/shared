@@ -1,9 +1,11 @@
 package iso
 
 import (
+	"bufio"
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"net"
 	"reflect"
 	"strconv"
@@ -366,9 +368,11 @@ func (m *Message) Execute(host string, port int) error {
 
 	// Make a buffer to hold incoming data.
 	rawIso := make([]byte, dataLen)
+	reader := bufio.NewReader(conn)
+	reqLen, err = io.ReadFull(reader, rawIso)
 
 	// Read the incoming connection into the buffer.
-	reqLen, err = conn.Read(rawIso)
+	// reqLen, err = conn.Read(rawIso)
 	if err != nil {
 		return err
 	}
