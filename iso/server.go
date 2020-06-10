@@ -1,8 +1,10 @@
 package iso
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"strconv"
@@ -92,7 +94,9 @@ func (s *TCPServer) parseMessage(conn net.Conn, msg *Message) (string, error) {
 	rawIso := make([]byte, dataLen)
 
 	// Read the incoming connection into the buffer.
-	reqLen, err = conn.Read(rawIso)
+	reader := bufio.NewReader(conn)
+	reqLen, err = io.ReadFull(reader, rawIso)
+	// reqLen, err = conn.Read(rawIso)
 	if err != nil {
 		return RcFail, err
 	}
