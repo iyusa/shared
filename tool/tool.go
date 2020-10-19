@@ -56,7 +56,7 @@ func StrToInt(source string, def int) int {
 
 // StrToFloat convert string to float, return def if fail
 func StrToFloat(source string, def float64) float64 {
-	val, err := strconv.ParseFloat(source, 32)
+	val, err := strconv.ParseFloat(source, 64)
 	if err != nil {
 		return def
 	}
